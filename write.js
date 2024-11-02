@@ -27,7 +27,7 @@ const server = http.createServer((req, res) => {
         return req.on("end", () => {
             const parsedBody = Buffer.concat(body).toString();
             console.log('parsedBody >>>>>', parsedBody);
-            const message = parsedBody.split("=")[1]; // Splitting on '=' instead of '*' to get message correctly
+            const message = parsedBody.split("=")[1]; 
             fs.writeFile("message.txt", message, (err) => {
                 if (err) {
                     console.log(err);
