@@ -1,13 +1,12 @@
-const http = require("http");
-const fs = require("fs");
+const fs = require('fs');
 
-const server = http.createServer((req, res) => {
+const requestHandle = (req, res) => {
     const url = req.url;
     const method = req.method;
     const body = [];
 
     if (url === "/") {
-        fs.readFile("message.txt", { encoding: "utf-8" }, (err, data) => {
+        fs.readFile("message1.txt", { encoding: "utf-8" }, (err, data) => {
             if (err) {
                 console.log(err);
             }
@@ -21,13 +20,13 @@ const server = http.createServer((req, res) => {
         });
     } else if (url === "/message" && method === "POST") {
         req.on("data", (chunk) => {
-            body.push(chunk); // array
+            body.push(chunk);
         });
         return req.on("end", () => {
             const parsedBody = Buffer.concat(body).toString();
             console.log('parsedBody >>>>>', parsedBody);
-            const message = parsedBody.split("=")[1]; 
-            fs.writeFile("message.txt", message, (err) => {
+            const message = parsedBody.split("=")[1];
+            fs.writeFile("message1.txt", message, (err) => {
                 if (err) {
                     console.log(err);
                 }
@@ -45,8 +44,6 @@ const server = http.createServer((req, res) => {
         res.write("</html>");
         res.end();
     }
-});
+};
 
-server.listen(3000);
-
-    
+module.exports = requestHandle;
